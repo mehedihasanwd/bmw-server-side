@@ -46,6 +46,9 @@ run().catch(console.dir);
 app.get("/", (req, res) => {
   res.send("Running the BMW Server");
 });
+app.get("/dear", (req, res) => {
+  res.send("Hello Dear");
+});
 
 // Listening to the app
 app.listen(port, () => {
