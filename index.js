@@ -27,15 +27,20 @@ async function run() {
 
     const database = client.db("BMW");
     const bmwCollection = database.collection("Cars");
-    const bmwDemo = database.collection("CarsDemo");
+    const reviewCollection = database.collection("Reviews");
 
-    // Test
-    const doc = {
-      name: "Mehedi",
-      email: "hellomehediwd@gmail.com",
-    };
-    const result = await bmwDemo.insertOne(doc);
-    console.log(result);
+    // GET CARS - API
+    app.get("/cars", async (req, res) => {
+      const cursor = bmwCollection.find({});
+      const cars = await cursor.toArray();
+      res.send(cars);
+    });
+    // GET REVIEWS - API
+    app.get("/reviews", async (req, res) => {
+      const cursor = reviewCollection.find({});
+      const reviews = await cursor.toArray();
+      res.send(reviews);
+    });
   } finally {
     // await client.close();
   }
