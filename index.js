@@ -27,7 +27,6 @@ async function run() {
 
     const database = client.db("BMW");
     const bmwCollection = database.collection("Cars");
-    const bmwHomeCollection = database.collection("homeCars");
     const reviewCollection = database.collection("Reviews");
     const orderCollection = database.collection("Orders");
 
@@ -38,23 +37,12 @@ async function run() {
       res.send(cars);
     });
 
-    app.get("/homecars", async (req, res) => {
-      const cursor = bmwHomeCollection.find({});
-      const homeCars = await cursor.toArray();
-      res.send(homeCars);
-    });
     // GET SPECIFIC CAR - API
     app.get("/cars/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const car = await bmwCollection.findOne(query);
       res.send(car);
-    });
-    app.get("/homecars/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const homeCar = await bmwCollection.findOne(query);
-      res.send(homeCar);
     });
     // GET REVIEWS - API
     app.get("/reviews", async (req, res) => {
