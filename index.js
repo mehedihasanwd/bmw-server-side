@@ -50,6 +50,12 @@ async function run() {
       const car = await bmwCollection.findOne(query);
       res.send(car);
     });
+    app.get("/homecars/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const homeCar = await bmwCollection.findOne(query);
+      res.send(homeCar);
+    });
     // GET REVIEWS - API
     app.get("/reviews", async (req, res) => {
       const cursor = reviewCollection.find({});
