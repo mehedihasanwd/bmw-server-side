@@ -35,6 +35,13 @@ async function run() {
       const cars = await cursor.toArray();
       res.send(cars);
     });
+    // GET SPECIFIC CAR - API
+    app.get("/cars/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const car = await bmwCollection.findOne(query);
+      res.send(car);
+    });
     // GET REVIEWS - API
     app.get("/reviews", async (req, res) => {
       const cursor = reviewCollection.find({});
