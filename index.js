@@ -27,6 +27,7 @@ async function run() {
 
     const database = client.db("BMW");
     const bmwCollection = database.collection("Cars");
+    const bmwHomeCollection = database.collection("homeCars");
     const reviewCollection = database.collection("Reviews");
     const orderCollection = database.collection("Orders");
 
@@ -35,6 +36,12 @@ async function run() {
       const cursor = bmwCollection.find({});
       const cars = await cursor.toArray();
       res.send(cars);
+    });
+
+    app.get("/homecars", async (req, res) => {
+      const cursor = bmwHomeCollection.find({});
+      const homeCars = await cursor.toArray();
+      res.send(homeCars);
     });
     // GET SPECIFIC CAR - API
     app.get("/cars/:id", async (req, res) => {
