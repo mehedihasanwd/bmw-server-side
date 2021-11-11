@@ -109,6 +109,14 @@ async function run() {
       res.json(allOrders);
     });
 
+    // Delete Specific Cars API
+    app.delete("/allorders/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const deleteCars = await orderCollection.deleteOne(query);
+      res.json(deleteCars);
+    });
+
     // Update Status
     app.put("/updateStatus/:id", (req, res) => {
       const id = req.params.id;
