@@ -108,6 +108,13 @@ async function run() {
       const allOrders = await cursor.toArray();
       res.json(allOrders);
     });
+
+    // Update Status
+    app.put("/updateStatus/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedStatus = req.body.status;
+      console.log(updatedStatus);
+    });
   } finally {
     // await client.close();
   }
