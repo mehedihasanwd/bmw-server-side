@@ -88,6 +88,13 @@ async function run() {
       const deleteOrder = await orderCollection.deleteOne(query);
       res.json(deleteOrder);
     });
+    // Delete Specific Cars API
+    app.delete("/cars/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const deleteCars = await bmwCollection.deleteOne(query);
+      res.json(deleteCars);
+    });
   } finally {
     // await client.close();
   }
