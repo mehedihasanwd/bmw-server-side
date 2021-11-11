@@ -64,6 +64,15 @@ async function run() {
       const result = await bmwCollection.insertOne(car);
       res.json(result);
     });
+
+    // Orders API with Email - GET
+    app.get("/orders/:email", async (req, res) => {
+      const email = req.params.email;
+      const cursor = orderCollection.find({});
+      const orders = await cursor.toArray();
+      const customerOrder = orders.filter((mail) => mail.email === email);
+      res.send(customerOrder);
+    });
   } finally {
     // await client.close();
   }
