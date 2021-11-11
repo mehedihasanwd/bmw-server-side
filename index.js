@@ -51,6 +51,12 @@ async function run() {
       res.send(reviews);
     });
 
+    app.post("/reviews", async (req, res) => {
+      const review = req.body;
+      const result = await reviewCollection.insertOne(review);
+      res.json(result);
+    });
+
     // POST ORDERS - API
     app.post("/orders", async (req, res) => {
       const order = req.body;
