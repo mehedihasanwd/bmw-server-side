@@ -57,6 +57,13 @@ async function run() {
       const result = await orderCollection.insertOne(order);
       res.json(result);
     });
+
+    // POST CARS - API (Add A Product)
+    app.post("/cars", async (req, res) => {
+      const car = req.body;
+      const result = await bmwCollection.insertOne(car);
+      res.json(result);
+    });
   } finally {
     // await client.close();
   }
