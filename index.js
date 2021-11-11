@@ -101,6 +101,13 @@ async function run() {
       const deleteCars = await bmwCollection.deleteOne(query);
       res.json(deleteCars);
     });
+
+    // All Order
+    app.get("/allorders", async (req, res) => {
+      const cursor = orderCollection.find({});
+      const allOrders = await cursor.toArray();
+      res.json(allOrders);
+    });
   } finally {
     // await client.close();
   }
