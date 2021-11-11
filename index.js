@@ -110,10 +110,17 @@ async function run() {
     });
 
     // Update Status
-    app.put("/updateStatus/:id", async (req, res) => {
+    app.put("/updateStatus/:id", (req, res) => {
       const id = req.params.id;
       const updatedStatus = req.body.status;
-      console.log(updatedStatus);
+      const filter = { _id: ObjectId(id) };
+      orderCollection
+        .updateOne(filter, {
+          $set: { orderStatus: updatedStatus },
+        })
+        .then((result) => {
+          res.send(result);
+        });
     });
   } finally {
     // await client.close();
