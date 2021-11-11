@@ -80,6 +80,14 @@ async function run() {
       const customerOrder = orders.filter((mail) => mail.email === email);
       res.send(customerOrder);
     });
+
+    // Delete Specific Order API
+    app.delete("/orders/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const deleteOrder = await orderCollection.deleteOne(query);
+      res.json(deleteOrder);
+    });
   } finally {
     // await client.close();
   }
