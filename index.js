@@ -29,6 +29,7 @@ async function run() {
     const bmwCollection = database.collection("Cars");
     const reviewCollection = database.collection("Reviews");
     const orderCollection = database.collection("Orders");
+    const userCollection = database.collection("users");
 
     // GET CARS - API
     app.get("/cars", async (req, res) => {
@@ -102,14 +103,14 @@ async function run() {
       res.json(deleteCars);
     });
 
-    // All Order
+    // All Orders
     app.get("/allorders", async (req, res) => {
       const cursor = orderCollection.find({});
       const allOrders = await cursor.toArray();
       res.json(allOrders);
     });
 
-    // Delete Specific Cars API
+    // Delete Specific Ordered Cars API
     app.delete("/allorders/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
@@ -129,6 +130,42 @@ async function run() {
         .then((result) => {
           res.send(result);
         });
+    });
+
+    // Post User - API
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      const result = await userCollection.insertOne(user);
+      res.json(result);
+    });
+    // Upsert User - API
+    app.put("/users", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const option = { upsert: true };
+      const updateUser = { $set: user };
+      const result = await userCollection.updateOne(filter, updateUser, option);
+      res.json(result);
+    });
+    // Make Admin From Users - API
+    app.put("/users/admin", async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const updateUser = { $set: { role: "admin" } };
+      const result = await userCollection.updateOne(filter, updateUser);
+      res.json(result);
+    });
+
+    // Filter Admin - API
+    app.get("/users/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const user = await userCollection.findOne(query);
+      let isAdmin = false;
+      if (user?.role === "admin") {
+        isAdmin = true;
+      }
+      res.json({ admin: isAdmin });
     });
   } finally {
     // await client.close();
