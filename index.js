@@ -29,7 +29,7 @@ async function run() {
     const bmwCollection = database.collection("Cars");
     const reviewCollection = database.collection("Reviews");
     const orderCollection = database.collection("Orders");
-    const userCollection = database.collection("users");
+    const userCollection = database.collection("Users");
 
     // GET CARS - API
     app.get("/cars", async (req, res) => {
