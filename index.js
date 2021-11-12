@@ -29,7 +29,7 @@ async function run() {
     const bmwCollection = database.collection("Cars");
     const reviewCollection = database.collection("Reviews");
     const orderCollection = database.collection("Orders");
-    const userCollection = database.collection("Users");
+    const usersCollection = database.collection("Users");
 
     // GET CARS - API
     app.get("/cars", async (req, res) => {
@@ -135,7 +135,7 @@ async function run() {
     // Post User - API
     app.post("/users", async (req, res) => {
       const user = req.body;
-      const result = await userCollection.insertOne(user);
+      const result = await usersCollection.insertOne(user);
       console.log(result);
       res.json(result);
     });
@@ -145,7 +145,11 @@ async function run() {
       const filter = { email: user.email };
       const option = { upsert: true };
       const updateUser = { $set: user };
-      const result = await userCollection.updateOne(filter, updateUser, option);
+      const result = await usersCollection.updateOne(
+        filter,
+        updateUser,
+        option
+      );
       res.json(result);
     });
     // Make Admin From Users - API
@@ -153,7 +157,7 @@ async function run() {
       const user = req.body;
       const filter = { email: user.email };
       const updateUser = { $set: { role: "admin" } };
-      const result = await userCollection.updateOne(filter, updateUser);
+      const result = await usersCollection.updateOne(filter, updateUser);
       res.json(result);
     });
 
@@ -161,7 +165,7 @@ async function run() {
     app.get("/users/:email", async (req, res) => {
       const email = req.params.email;
       const query = { email: email };
-      const user = await userCollection.findOne(query);
+      const user = await usersCollection.findOne(query);
       let isAdmin = false;
       if (user?.role === "admin") {
         isAdmin = true;
